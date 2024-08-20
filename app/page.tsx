@@ -7,6 +7,7 @@ import { CoachWidget } from "./components/CoachWidget";
 
 import Image from "next/image";
 
+// @ts-ignore
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 
@@ -19,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     // Reset userId whenever isStudent changes
-    setUserId(null);
+    setUserId("");
   }, [isStudent]);
 
   const handleUserIdChange = (value: string) => {
@@ -40,7 +41,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center p-12">
       <Image
         src="/stepful.webp"
-        alt="Description of the image"
+        alt="Stepful wordmark"
         width={180}
         height={60}
       />
@@ -60,8 +61,8 @@ export default function Home() {
       <br />
       <br />
 
-      <div class="border-2 border-slate-500/20 bg-slate-400/20 rounded px-24 py-6">
-        <p class="font-semibold">Testing control panel</p>
+      <div className="border-2 border-slate-500/20 bg-slate-400/20 rounded px-24 py-6">
+        <p className="font-semibold">Testing control panel</p>
 
         <br />
         <br />
@@ -85,10 +86,10 @@ export default function Home() {
           <input
             type="text"
             id="userId"
-            maxlength="3"
+            maxLength={3}
             value={userId !== null ? userId : ""}
             onChange={(e) => handleUserIdChange(e.target.value)}
-            class="max-w-12"
+            className="max-w-12"
           />
         </div>
       </div>

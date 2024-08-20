@@ -12,12 +12,12 @@ export function CoachWidget(props: CoachWidgetProps) {
   if (sessionBooked) {
     return (
       <div className="flex flex-col justify-center items-center">
-        <p class="italic">Hello Coach Maxwell</p>
+        <p className="italic">Hello Coach Maxwell</p>
 
         <br />
         <br />
 
-        <p class="font-semibold">You have an upcoming session!</p>
+        <p className="font-semibold">You have an upcoming session!</p>
 
         <br />
         <br />
@@ -25,12 +25,12 @@ export function CoachWidget(props: CoachWidgetProps) {
         <p>
           with Andrew on
           <br />
-          <span class="underline">August 20th at 12:30PM</span>
+          <span className="underline">August 20th at 12:30PM</span>
           <br />
           <br />
           calling from
           <br />
-          <span class="underline">(202) 404-6006</span>
+          <span className="underline">(202) 404-6006</span>
         </p>
       </div>
     );
