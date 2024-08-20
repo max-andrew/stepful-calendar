@@ -1,7 +1,12 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export function Calendar(props) {
+interface CalendarProps {
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+}
+
+export function Calendar(props: CalendarProps) {
   return (
     <div className="flex flex-col justify-center items-center">
       <p class="italic">Select a date and time for your meeting</p>

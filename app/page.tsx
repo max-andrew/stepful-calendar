@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 
-import { StudentWidget } from "./components/StudentWidget"
-import { CoachWidget } from "./components/CoachWidget"
+import { StudentWidget } from "./components/StudentWidget";
+import { CoachWidget } from "./components/CoachWidget";
 
 import Image from "next/image";
 
@@ -49,7 +49,11 @@ export default function Home() {
       <br />
       <br />
 
-      { !isStudent ? <StudentWidget startDate={startDate} setStartDate={setStartDate} /> : <CoachWidget startDate={startDate} setStartDate={setStartDate} /> }
+      {!isStudent ? (
+        <StudentWidget startDate={startDate} setStartDate={setStartDate} />
+      ) : (
+        <CoachWidget startDate={startDate} setStartDate={setStartDate} />
+      )}
 
       <br />
       <br />

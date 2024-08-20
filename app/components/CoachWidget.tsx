@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "./Calendar";
 
-export function CoachWidget(props) {
+interface CoachWidgetProps {
+  startDate: Date | null;
+  setStartDate: (date: Date | null) => void;
+}
+
+export function CoachWidget(props: CoachWidgetProps) {
   const [sessionBooked, setSessionBooked] = useState<boolean>(true);
 
   if (sessionBooked) {
