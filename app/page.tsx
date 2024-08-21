@@ -1,9 +1,8 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
+import { db } from "../lib/database";
 
-import { StudentWidget } from "./components/StudentWidget";
-import { CoachWidget } from "./components/CoachWidget";
+// import { StudentWidget } from "./components/StudentWidget";
+// import { CoachWidget } from "./components/CoachWidget";
 
 import Image from "next/image";
 
@@ -11,26 +10,35 @@ import Image from "next/image";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 
-export default function Home() {
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [isStudent, setIsStudent] = useState<boolean>(true);
-  const [userId, setUserId] = useState<number | string>("");
+async function findPersonById(id: number) {
+  return await db
+    .selectFrom("students")
+    .where("id", "=", id)
+    .selectAll()
+    .executeTakeFirst();
+}
 
-  const userTitle: string = isStudent ? "Student" : "Coach";
+export default async function Home() {
+  // const [startDate, setStartDate] = useState<Date | null>(new Date());
+  // const [isStudent, setIsStudent] = useState<boolean>(true);
+  // const [userId, setUserId] = useState<number | string>("");
 
+  // const userTitle: string = isStudent ? "Student" : "Coach";
+  /*
   useEffect(() => {
     // Reset userId whenever isStudent changes
     setUserId("");
   }, [isStudent]);
+*/
+
+  const test = await findPersonById(1);
 
   const handleUserIdChange = (value: string) => {
-    // Allow blank input
     if (value === "") {
       setUserId("");
       return;
     }
 
-    // Ensure userId is a number and contains no letters or other characters
     const numericValue = parseInt(value);
     if (!isNaN(numericValue)) {
       setUserId(numericValue);
@@ -50,6 +58,10 @@ export default function Home() {
       <br />
       <br />
 
+      <p>{test.name}</p>
+
+      {/*
+
       {!isStudent ? (
         <StudentWidget startDate={startDate} setStartDate={setStartDate} />
       ) : (
@@ -60,6 +72,7 @@ export default function Home() {
       <br />
       <br />
       <br />
+
 
       <div className="border-2 border-slate-500/20 bg-slate-400/20 rounded px-24 py-6">
         <p className="font-semibold">Testing control panel</p>
@@ -93,6 +106,8 @@ export default function Home() {
           />
         </div>
       </div>
+
+      */}
     </main>
   );
 }
