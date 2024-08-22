@@ -87,9 +87,6 @@ Ringo Starr
 ## Requirements
 
 Assignment
-Kickoff (video call): Once you get these instructions you are good to start.
-Take-home (~3 hours): You will get as far as you can building a full-stack website (details below), don’t worry if you can’t finish everything. Once you are done, send your code in a Github repo using the form at the bottom of this document. (For private Github repos, share with: @wyattades, @PetrMitsel, @eserra, @KeanuH95, @sarajculhane, @meyburdj, and @DanialBetres). We will then review your code and your recruiter will work with you to schedule a Review call if the feedback is positive.
-If you have questions in the meantime, reach out to your recruiter! 
 
 Take-home prompt: a Coaching Conundrum
 Stepful is getting too busy! We have hundreds of 1-on-1 coaching calls between our students and coaches, and we need you to build a website to manage their scheduling.
@@ -107,10 +104,6 @@ Make sure to use the following technologies for this project:
 a frontend framework: e.g. React/Typescript, etc.
 a backend: e.g. Ruby on Rails, Next.js, etc.
 a database: e.g. PostgreSQL, MySQL, etc.
-In the space below, please include your GitHub repository link (1 link only please) as well as any notes that you'd like the reviewers to consider while viewing your submission. If you have a personal website or side project(s) you'd like to share, feel free to include them, too! 
-
-
-
 
 
 
