@@ -7,6 +7,13 @@ export type Generated<T> =
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export interface Availabilities {
+  coach_id: number;
+  id: Generated<number>;
+  start_date_time: Timestamp;
+  student_id: number | null;
+}
+
 export interface Coaches {
   id: Generated<number>;
   name: string;
@@ -14,11 +21,11 @@ export interface Coaches {
 }
 
 export interface Sessions {
-  coach_id: number | null;
+  coach_id: number;
   coach_notes: string | null;
   session_id: Generated<number>;
   start_date_time: Timestamp;
-  student_id: number | null;
+  student_id: number;
   student_satisfaction: number | null;
 }
 
@@ -29,6 +36,7 @@ export interface Students {
 }
 
 export interface DB {
+  availabilities: Availabilities;
   coaches: Coaches;
   sessions: Sessions;
   students: Students;

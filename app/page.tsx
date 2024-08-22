@@ -1,37 +1,79 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../lib/database";
+"use client";
 
-// import { StudentWidget } from "./components/StudentWidget";
-// import { CoachWidget } from "./components/CoachWidget";
+import React, { useState, useEffect } from "react";
+import { db } from "@/lib/database";
+
+import { Calendar } from "./components/Calendar";
+import { CoachWidget } from "./components/CoachWidget";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import Image from "next/image";
 
-// @ts-ignore
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 
-async function findPersonById(id: number) {
-  return await db
-    .selectFrom("students")
-    .where("id", "=", id)
-    .selectAll()
-    .executeTakeFirst();
-}
+export default function Home() {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [isStudent, setIsStudent] = useState<boolean>(true);
+  const [student, setStudent] = useState<any>(null);
+  const [userId, setUserId] = useState<number | string>("");
+  const [sessionBooked, setSessionBooked] = useState<boolean>(false);
+  const [contact, setContact] = useState<{
+    name: string;
+    phoneNumber: string;
+  } | null>(null);
 
-export default async function Home() {
-  // const [startDate, setStartDate] = useState<Date | null>(new Date());
-  // const [isStudent, setIsStudent] = useState<boolean>(true);
-  // const [userId, setUserId] = useState<number | string>("");
-
-  // const userTitle: string = isStudent ? "Student" : "Coach";
-  /*
+  const userTitle: string = isStudent ? "Student" : "Coach";
   useEffect(() => {
     // Reset userId whenever isStudent changes
     setUserId("");
   }, [isStudent]);
-*/
 
-  const test = await findPersonById(1);
+  useEffect(() => {
+    if (userId) {
+      fetch(`/api/students/${userId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setStudent(null);
+          } else {
+            setStudent(data);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching student:", error);
+          setStudent(null);
+        });
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId) {
+      const type = isStudent ? "student" : "coach";
+      fetch(`/api/sessions/${userId}?type=${type}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            setSessionBooked(false);
+          } else {
+            setSessionBooked(true);
+            setStartDate(new Date(data.start_date_time));
+            setContact({
+              name: isStudent ? data.coach_name : data.student_name,
+              phoneNumber: isStudent
+                ? data.coach_phone_number
+                : data.student_phone_number,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching session:", error);
+          setSessionBooked(false);
+        });
+    }
+  }, [userId]);
 
   const handleUserIdChange = (value: string) => {
     if (value === "") {
@@ -58,21 +100,56 @@ export default async function Home() {
       <br />
       <br />
 
-      <p>{test.name}</p>
-
-      {/*
-
-      {!isStudent ? (
-        <StudentWidget startDate={startDate} setStartDate={setStartDate} />
+      {student ? (
+        <p className="italic">Hello {student.name}</p>
       ) : (
-        <CoachWidget startDate={startDate} setStartDate={setStartDate} />
+        <p>No user available for this id</p>
+      )}
+
+      {sessionBooked ? (
+        <div className="flex flex-col justify-center items-center">
+          <br />
+          <br />
+
+          <p className="font-semibold">You have an upcoming session!</p>
+
+          <br />
+          <br />
+
+          <p>
+            with {contact?.name} on
+            <br />
+            <span className="underline">{startDate?.toLocaleString()}</span>
+            <br />
+            <br />
+            calling from
+            <br />
+            <span className="underline">{contact?.phoneNumber}</span>
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <p className="italic">Select a date and time for your meeting</p>
+          <br />
+          <DatePicker
+            selected={startDate}
+            onChange={(date: Date | null) => setStartDate(date)}
+            showTimeSelect
+            minDate={new Date()}
+            // filterDate={isWeekday}
+            // filterTime={filterPassedTime}
+          />
+          <br />
+          <button className="underline">Book</button>
+        </div>
       )}
 
       <br />
       <br />
       <br />
       <br />
-
+      <br />
+      <br />
 
       <div className="border-2 border-slate-500/20 bg-slate-400/20 rounded px-24 py-6">
         <p className="font-semibold">Testing control panel</p>
@@ -106,8 +183,6 @@ export default async function Home() {
           />
         </div>
       </div>
-
-      */}
     </main>
   );
 }
