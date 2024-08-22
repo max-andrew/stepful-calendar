@@ -17,7 +17,7 @@ import "react-toggle/style.css";
 export default function Home() {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [isStudent, setIsStudent] = useState<boolean>(true);
-  const [student, setStudent] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);
   const [userId, setUserId] = useState<number | string>("");
   const [sessionBooked, setSessionBooked] = useState<boolean>(false);
   const [contact, setContact] = useState<{
@@ -33,21 +33,22 @@ export default function Home() {
 
   useEffect(() => {
     if (userId) {
-      fetch(`/api/students/${userId}`)
+      const type = isStudent ? "student" : "coach";
+      fetch(`/api/${type}s/${userId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.error) {
-            setStudent(null);
+            setUser(null);
           } else {
-            setStudent(data);
+            setUser(data);
           }
         })
         .catch((error) => {
-          console.error("Error fetching student:", error);
-          setStudent(null);
+          console.error(`Error fetching ${type}:`, error);
+          setUser(null);
         });
     }
-  }, [userId]);
+  }, [userId, isStudent]);
 
   useEffect(() => {
     if (userId) {
@@ -100,8 +101,8 @@ export default function Home() {
       <br />
       <br />
 
-      {student ? (
-        <p className="italic">Hello {student.name}</p>
+      {user ? (
+        <p className="italic">Hello {user.name}</p>
       ) : (
         <p>No user available for this id</p>
       )}
